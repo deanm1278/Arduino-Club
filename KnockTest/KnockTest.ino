@@ -26,6 +26,8 @@ const int ledPin = 13;      // led connected to digital pin 13
 const int knockSensor = A0; // the piezo is connected to analog pin 0
 const int threshold = 500;  // threshold value to decide when the detected sound is a knock or not
 
+#define MOTOR_IN1 9
+#define MOTOR_IN2 10
 
 // these variables will change:
 int sensorReading = 0;      // variable to store the value read from the sensor pin
@@ -37,6 +39,23 @@ bool allKnocksReceived = false;
 void setup() {
   pinMode(ledPin, OUTPUT); // declare the ledPin as as OUTPUT
   Serial.begin(9600);       // use the serial port
+
+  pinMode(MOTOR_IN1, OUTPUT);
+  pinMode(MOTOR_IN2, OUTPUT);
+}
+
+void unlockDoor(){
+  // ramp up forward
+  digitalWrite(MOTOR_IN1, LOW);
+  for (int i=0; i<255; i++) {
+    analogWrite(MOTOR_IN2, i);
+    delay(10);
+  }
+ 
+  // forward full speed for one second
+  delay(1000);
+
+  digitalWrite(MOTOR_IN2, LOW);
 }
 
 void reset(){
@@ -63,6 +82,7 @@ void loop() {
         if(round( (float)diff0 / (float)diff1 ) == 2){
           //there is a match
           Serial.println("There is a match!");
+          unlockDoor();
         }
     }
     reset();
