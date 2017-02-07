@@ -16,9 +16,9 @@ Distributed as-is; no warranty is given.
 ****************************************************************/
 
 // Debug mode. 0 = Motor functional. 1 = Serial output only.
-#define DEBUG 0
+#define DEBUG 1
 
-const int knockSensor = A5; // the piezo is connected to analog pin 5
+const int knockSensor = A0; // the piezo is connected to analog pin 0
 const int threshold = 500;  // threshold value to decide when the detected sound is a knock or not
 
 int sensorReading = 0;      // variable to store the value read from the sensor pin
@@ -40,21 +40,25 @@ const uint8_t MOTOR_CW = 0;
 const uint8_t MOTOR_CCW = 1;
 
 // Pin definitions
+/* NOT USED
 const uint8_t BTN_UNLOCK_PIN = 2;
 const uint8_t BTN_LOCK_PIN = 3;
-const uint8_t SW_1A_PIN = A0;
-const uint8_t SW_1B_PIN = A1;
-const uint8_t SW_2A_PIN = A2;
-const uint8_t SW_2B_PIN = A3;
+*/
+const uint8_t SW_1A_PIN = 8; //green wire
+const uint8_t SW_1B_PIN = 9; //white wire
+const uint8_t SW_2A_PIN = 10; //blue wire
+const uint8_t SW_2B_PIN = 11; //black wire
 const uint8_t AIN1_PIN = 7;
-const uint8_t AIN2_PIN = 8;
-const uint8_t PWMA_PIN = 9;
+const uint8_t AIN2_PIN = 6;
+const uint8_t PWMA_PIN = 5;
 
+/* NOT USED
 // Button states
 uint8_t btn_lock;
 uint8_t btn_unlock;
 uint8_t prev_btn_lock;
 uint8_t prev_btn_unlock;
+*/
 
 // Switch state variables
 uint8_t sw_1a;
@@ -179,8 +183,10 @@ void setup() {
 #endif
 
   // Set up switch and button pins
+  /* NOT USED
   pinMode(BTN_UNLOCK_PIN, INPUT_PULLUP);
   pinMode(BTN_LOCK_PIN, INPUT_PULLUP);
+  */
   pinMode(SW_1A_PIN, INPUT_PULLUP);
   pinMode(SW_1B_PIN, INPUT_PULLUP);
   pinMode(SW_2A_PIN, INPUT_PULLUP);
@@ -191,8 +197,11 @@ void setup() {
   // Reset the lock to unlocked position
   resetLock();
   lock_state = LOCK_OPEN;
+
+  /* NOT USED
   prev_btn_lock = 1;
   prev_btn_unlock = 1;
+  */
 }
 
 
@@ -222,7 +231,6 @@ void loop() {
           unlock();
          delay(8000);
          lock();
-             
             
           }
         
